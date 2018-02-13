@@ -40,7 +40,7 @@ class AmazonTransport(object): # pragma: no cover
                     response['SendRawEmailResponse']['ResponseMetadata']['RequestId']
                 )
         
-        except SESConnection.ResponseError:
+        except boto.ses.SESConnection.ResponseError:
             raise # TODO: Raise appropriate internal exception.
             # ['status', 'reason', 'body', 'request_id', 'error_code', 'error_message']
     
