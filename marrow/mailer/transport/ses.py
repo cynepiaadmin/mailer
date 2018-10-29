@@ -32,8 +32,8 @@ class AmazonTransport(object): # pragma: no cover
         try:
             response = self.connection.send_raw_email(
                     str(message),
-                    source=message.author.encode(),
-                    destinations=message.recipients.encode(),
+                    source=message.author,
+                    destinations=message.recipients,
             )
             return (
                     response['SendRawEmailResponse']['SendRawEmailResult']['MessageId'],
