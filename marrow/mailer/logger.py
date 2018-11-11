@@ -33,7 +33,7 @@ class MailHandler(logging.Handler):
         self.config = dict()
         
         if args:
-            config.update(dict(zip(*[iter(args)]*2)))
+            config.update(dict(list(zip(*[iter(args)]*2))))
         
         self.mailer = Mailer(config).start()
         

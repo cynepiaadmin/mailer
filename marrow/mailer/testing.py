@@ -2,7 +2,7 @@
 
 """Utilities for testing Marrow Mailer and applications that use it."""
 
-from __future__ import print_function
+
 
 from threading import Thread
 from socket import socket
@@ -88,7 +88,7 @@ class DebuggingSMTPServer(SMTPServer, Thread):
 		with self._lock:  # Protect against parallel access.
 			self.messages.clear()
 	
-	def next(self):
+	def __next__(self):
 		with self._lock:  # Protect against parallel access.
 			return self.messages.popleft()
 
