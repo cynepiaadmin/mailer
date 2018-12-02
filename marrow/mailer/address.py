@@ -9,7 +9,7 @@ from email.utils import formataddr, parseaddr
 from email.header import Header
 
 from marrow.mailer.validator import EmailValidator
-from marrow.util.compat import str, str, unicodestr, native
+from marrow.util.compat import basestring, unicode, unicodestr, native
 
 __all__ = ['Address', 'AddressList']
 
@@ -32,7 +32,7 @@ class Address(object):
 				if not 0 < len(name_or_email) < 2:
 					raise ValueError("AddressList to convert must only contain a single Address.")
 
-				name_or_email = str(name_or_email[0])
+				name_or_email = unicode(name_or_email[0])
 
 			if isinstance(name_or_email, (tuple, list)):
 				self.name = unicodestr(name_or_email[0], encoding)
@@ -41,7 +41,7 @@ class Address(object):
 			elif isinstance(name_or_email, bytes):
 				self.name, self.address = parseaddr(unicodestr(name_or_email, encoding))
 
-			elif isinstance(name_or_email, str):
+			elif isinstance(name_or_email, unicode):
 				self.name, self.address = parseaddr(name_or_email)
 
 			else:
@@ -61,8 +61,8 @@ class Address(object):
 		if isinstance(other, Address):
 			return (self.name, self.address) == (other.name, other.address)
 
-		elif isinstance(other, str):
-			return str(self) == other
+		elif isinstance(other, unicode):
+			return unicode(self) == other
 
 		elif isinstance(other, bytes):
 			return bytes(self) == other
@@ -79,7 +79,7 @@ class Address(object):
 		return len(self.__unicode__())
 
 	def __repr__(self):
-		return 'Address("{0}")'.format(str(self).encode('ascii', 'backslashreplace').decode('ascii'))
+		return 'Address("{0}")'.format(unicode(self).encode('ascii', 'backslashreplace').decode('ascii'))
 
 	def __unicode__(self):
 		return self.encode('utf8').decode('utf8')
@@ -132,7 +132,7 @@ class AddressList(list):
 		if addresses is None:
 			return
 
-		if isinstance(addresses, str):
+		if isinstance(addresses, basestring):
 			addresses = addresses.split(',')
 
 		elif isinstance(addresses, tuple):
@@ -148,13 +148,13 @@ class AddressList(list):
 		if not self:
 			return "AddressList()"
 
-		return "AddressList(\"{0}\")".format(", ".join([str(i) for i in self]))
+		return "AddressList(\"{0}\")".format(", ".join([unicode(i) for i in self]))
 
 	def __bytes__(self):
 		return self.encode()
 
 	def __unicode__(self):
-		return ", ".join(str(i) for i in self)
+		return ", ".join(unicode(i) for i in self)
 
 	if sys.version_info < (3, 0):
 		__str__ = __bytes__

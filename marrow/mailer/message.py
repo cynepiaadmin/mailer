@@ -17,7 +17,7 @@ from mimetypes import guess_type
 
 from marrow.mailer import release
 from marrow.mailer.address import Address, AddressList, AutoConverter
-from marrow.util.compat import str, str, native
+from marrow.util.compat import basestring, unicode, native
 
 
 #from marrow.schema import Container, DataAttribute, Attribute, CallbackAttribute, Attributes
@@ -163,7 +163,7 @@ class Message(object):
 		RFC 2822."""
 		if isinstance(date_value, datetime):
 			date_value = time.mktime(date_value.timetuple())
-		if not isinstance(date_value, str):
+		if not isinstance(date_value, basestring):
 			date_value = formatdate(date_value, localtime=True)
 		# Encode it here to avoid this:
 		# Date: =?utf-8?q?Sat=2C_01_Sep_2012_13=3A08=3A29_-0300?=
@@ -207,7 +207,7 @@ class Message(object):
 			name, value = header
 			
 			if isinstance(value, (Address, AddressList)):
-				value = str(value)
+				value = unicode(value)
 			
 			message[name] = value
 

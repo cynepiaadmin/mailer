@@ -12,7 +12,7 @@ from functools import partial
 from marrow.mailer.message import Message
 from marrow.mailer.exc import MailerNotRunning
 
-from marrow.util.compat import str
+from marrow.util.compat import basestring
 from marrow.util.bunch import Bunch
 from marrow.util.object import load_object
 
@@ -53,7 +53,7 @@ class Mailer(object):
 			except ValueError:
 				self.manager_config = manager_config = dict()
 		
-		if 'manager' in config and isinstance(config.manager, str):
+		if 'manager' in config and isinstance(config.manager, basestring):
 			warnings.warn("Use of the manager directive is deprecated; use manager.use instead.", DeprecationWarning)
 			manager_config.use = config.manager
 		
@@ -65,7 +65,7 @@ class Mailer(object):
 		except (AttributeError, ValueError): # pragma: no cover
 			self.transport_config = transport_config = Bunch()
 		
-		if 'transport' in config and isinstance(config.transport, str):
+		if 'transport' in config and isinstance(config.transport, basestring):
 			warnings.warn("Use of the transport directive is deprecated; use transport.use instead.", DeprecationWarning)
 			transport_config.use = config.transport
 		
@@ -99,7 +99,7 @@ class Mailer(object):
 	
 	@staticmethod
 	def _load(spec, group):
-		if not isinstance(spec, str):
+		if not isinstance(spec, basestring):
 			# It's already an object, just use it.
 			return spec
 		
